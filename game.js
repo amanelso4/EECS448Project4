@@ -4,7 +4,8 @@ var obstacles;
 var tps =100;
 var key;
 var timer;
-var timeLeft = 6000;
+var timeLabel;
+var time = 60;
 var obstacleFreq = .01; // 0-1, smaller = less frequent
 var minDist = 400; // Minimum distance between obstacles
 
@@ -18,6 +19,7 @@ var myGameArea = {
     this.canvas.width = 900;
     this.canvas.height = 700; //the size of the game screen
     this.context = this.canvas.getContext("2d");
+    progressView = document.getElementById("timer");
 
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
     this.interval = setInterval(updateGameArea, 1000/tps); //to make the game go faster or slower change this interval
@@ -41,6 +43,8 @@ var myGameArea = {
     clearInterval(this.interval);
   }
 }
+
+
 
 /**
  * Base game object which handles display and collision detection  
@@ -111,6 +115,7 @@ function startGame() {
   obstacles = [];
   ground = new Component(900, 300, "green", 0, 400);
   timer = setInterval(updateTimer, 1000);
+
 }
 /**
  * A game object controlled by the player.
@@ -183,13 +188,36 @@ class Obstacle extends Component {
 /**
  * Update and check the game timer to see if the character has won.
  */
-function updateTimer() {
+/*function updateTimer() {
   timeLeft = timeLeft - 1;
+  progressView.innerHTML = timeLeft;
   if(timeLeft === 0){
     myGameArea.stop();
     document.getElementById("gameOver").innerHTML = "You WIN! Refresh to try again!";
   }
+}*/
+
+function updateTimer() {
+  time = time - 1;
+  
+  progressView.innerHTML = time; 
+
+  this.canvas.font = "30px Arial";
+  this.canvas.fillText(time,800,50); 
+
+  //changetext(time);
+
+  if(time < 0){
+    myGameArea.stop();
+    clearInterval(timer);
+    progressView.innerHTML = "0";
+    document.getElementById("gameOver").innerHTML = "You WIN! Refresh to try again!";
+  }
 }
+  
+
+
+
 
 /**
  * Run the main game loop.
@@ -200,6 +228,7 @@ function updateGameArea() {
   for(let ob of obstacles){
     if(myCharacter.crashWith(ob)){
       myGameArea.stop();
+      clearInterval(timer);
       document.getElementById("gameOver").innerHTML = "You lose! Refresh to try again!";
     }
   }
@@ -213,7 +242,7 @@ function updateGameArea() {
   if(myGameArea.canvas.width - obstacles[obstacles.length - 1].x >= myGameArea.canvas.width*.9){
     obstacles.push(new Obstacle());
   }
-  updateTimer();
+  //updateTimer();
 
   
   // Update the character and obstacles
