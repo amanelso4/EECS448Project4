@@ -7,6 +7,7 @@ var timer;
 var timeLeft = 6000;
 var obstacleFreq = .01; // 0-1, smaller = less frequent
 var minDist = 400; // Minimum distance between obstacles
+var level; //determines what level the player wants to play on
 
 /**
  * Object wrapping a 2D context and containing display and update methods.
@@ -86,7 +87,7 @@ class Component {
     }
   }
   /**
-   * Draw the object at the current location.
+    * Draw the object at the current location.
    */
   update = function () {
     let ctx = myGameArea.context;
@@ -170,7 +171,13 @@ class Obstacle extends Component {
   xSpeed =5;
   ySpeed =0;
   constructor() {
-    super(30, 50, "red", myGameArea.canvas.width, 350);
+    if((Math.floor(Math.random() * 10) % 2) == 1)
+    {
+    super(30, 50, "red", myGameArea.canvas.width, 350); //used to have super here
+    }
+    else {
+    super(30, 50, "red", myGameArea.canvas.width, 300);
+    }
   }
 
   /**
@@ -208,6 +215,7 @@ function updateGameArea() {
       myGameArea.stop();
       document.getElementById("gameOver").innerHTML = "You lose! Refresh to try again!";
     }
+  }
   }
 
   // Spawn obstacles
