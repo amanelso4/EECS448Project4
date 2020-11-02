@@ -19,22 +19,6 @@ var myGameArea = {
   context: null,
   canvas: document.createElement("canvas"),
   start: function () {
-<<<<<<< HEAD
-      this.canvas.width = 900;
-      this.canvas.height = 700; //the size of the game screen
-      this.context = this.canvas.getContext("2d");
-      document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-      ground = new Component(900, 300, "green", 0, 400);
-     // btn = new component("30px", "Consolas", "black", 280, 40, "text");
-
-      this.interval = setInterval(updateGameArea, 1000/tps); //to make the game go faster or slower change this interval
-      window.addEventListener('keydown', function (e) {
-        key = e.key;
-      })
-      window.addEventListener('keyup', function (e) {
-        key = false;
-      })
-=======
     this.canvas.width = 900;
     this.canvas.height = 700; //the size of the game screen
     this.context = this.canvas.getContext("2d");
@@ -47,7 +31,6 @@ var myGameArea = {
      window.addEventListener('keyup', function (e) {
        key = false;
      })
->>>>>>> 8a442a4fdc626c36303630e5688f1e6b5534e76b
   },
   /**
    * Clear the display.
@@ -130,12 +113,8 @@ function startGame() {
   myGameArea.start();
  // ground = new Component(900, 300, "green", 0, 400);
   myCharacter = new Character();
-<<<<<<< HEAD
-  obstacles = [];
-=======
   obstacles = [new Obstacle()];
   ground = new Component(900, 300, "green", 0, 400);
->>>>>>> 8a442a4fdc626c36303630e5688f1e6b5534e76b
   timer = setInterval(updateTimer, 1000);
 } 
 
