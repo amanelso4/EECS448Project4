@@ -7,26 +7,32 @@ var timer;
 var timeLeft = 6000;
 var obstacleFreq = .01; // 0-1, smaller = less frequent
 var minDist = 400; // Minimum distance between obstacles
+var currentState = 'M';
+var myScore;
+var btn = "HI";
 
 /**
  * Object wrapping a 2D context and containing display and update methods.
  */
 var myGameArea = {
+
   context: null,
   canvas: document.createElement("canvas"),
   start: function () {
-    this.canvas.width = 900;
-    this.canvas.height = 700; //the size of the game screen
-    this.context = this.canvas.getContext("2d");
+      this.canvas.width = 900;
+      this.canvas.height = 700; //the size of the game screen
+      this.context = this.canvas.getContext("2d");
+      document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+      ground = new Component(900, 300, "green", 0, 400);
+     // btn = new component("30px", "Consolas", "black", 280, 40, "text");
 
-    document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-    this.interval = setInterval(updateGameArea, 1000/tps); //to make the game go faster or slower change this interval
-    window.addEventListener('keydown', function (e) {
-      key = e.key;
-     })
-     window.addEventListener('keyup', function (e) {
-       key = false;
-     })
+      this.interval = setInterval(updateGameArea, 1000/tps); //to make the game go faster or slower change this interval
+      window.addEventListener('keydown', function (e) {
+        key = e.key;
+      })
+      window.addEventListener('keyup', function (e) {
+        key = false;
+      })
   },
   /**
    * Clear the display.
@@ -107,11 +113,23 @@ class Component {
  */
 function startGame() {
   myGameArea.start();
+ // ground = new Component(900, 300, "green", 0, 400);
   myCharacter = new Character();
   obstacles = [];
-  ground = new Component(900, 300, "green", 0, 400);
   timer = setInterval(updateTimer, 1000);
-}
+} 
+
+
+
+
+
+
+
+
+
+
+
+
 /**
  * A game object controlled by the player.
  */
