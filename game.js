@@ -1,7 +1,7 @@
 var myCharacter;
 var ground;
 var obstacles;
-var tps =100;
+var tps =100;//to make the game go faster or slower change this interval
 var key;
 var timer;
 var timeLeft = 6000;
@@ -20,7 +20,7 @@ var myGameArea = {
     this.context = this.canvas.getContext("2d");
 
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-    this.interval = setInterval(updateGameArea, 1000/tps); //to make the game go faster or slower change this interval
+    this.interval = setInterval(updateGameArea, 1000/tps);
     window.addEventListener('keydown', function (e) {
       key = e.key;
      })
@@ -43,11 +43,11 @@ var myGameArea = {
 }
 
 /**
- * Base game object which handles display and collision detection  
+ * Base game object which handles display and collision detection
  */
 class Component {
     /**
-     * 
+     *
      * @param {number} width Width of the object
      * @param {number} height Height of the object
      * @param {string} color The object's color
@@ -63,7 +63,7 @@ class Component {
 
     /**
      * Check if this object is colliding with another.
-     * 
+     *
      * @param {Component} ob The object against which to check for collision.
      */
     this.crashWith = function(ob) {
@@ -108,7 +108,7 @@ class Component {
 function startGame() {
   myGameArea.start();
   myCharacter = new Character();
-  obstacles = [];
+  obstacles = [new Obstacle()];
   ground = new Component(900, 300, "green", 0, 400);
   timer = setInterval(updateTimer, 1000);
 }
@@ -128,7 +128,7 @@ class Character extends Component{
    * Check for key presses and move the character accordingly.
    */
   move = function (){
-   
+
     if(key == "s"){
       if(!this.crouching){
         this.y+=25;
@@ -167,7 +167,8 @@ class Character extends Component{
  * A game object which serves as an obstacle for the character to avoid.
  */
 class Obstacle extends Component {
-
+  xSpeed =5;
+  ySpeed =0;
   constructor() {
     super(30, 50, "red", myGameArea.canvas.width, 350);
   }
@@ -176,7 +177,12 @@ class Obstacle extends Component {
    * Move the object towards the character.
    */
   move = function () {
-    this.x -= 5;
+    this.x -= this.xSpeed;
+    this.y -= this.ySpeed;
+    if(this.y<=0||(this.y)>=350){
+      console.log(this.y);
+      this.ySpeed *= -1;
+    }
   };
 }
 
@@ -215,7 +221,7 @@ function updateGameArea() {
   }
   updateTimer();
 
-  
+
   // Update the character and obstacles
   myCharacter.clear(); //we use myCharacter.clear() instead of myGameArea.clear() because we don't want the ground to clear
   for (let ob of obstacles) {
