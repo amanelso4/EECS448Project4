@@ -9,7 +9,8 @@ var obstacleFreq = .01; // 0-1, smaller = less frequent
 var minDist = 400; // Minimum distance between obstacles
 var currentState = 'M';
 var myScore;
-var btn = "HI";
+var btn;
+let choice = document.querySelector("color");
 
 /**
  * Object wrapping a 2D context and containing display and update methods.
@@ -109,7 +110,7 @@ class Component {
 /**
  * Create the character and start the game.
  */
-function startGame() {
+function startGame(level) {
   myGameArea.start();
  // ground = new Component(900, 300, "green", 0, 400);
   myCharacter = new Character();
@@ -118,16 +119,20 @@ function startGame() {
   timer = setInterval(updateTimer, 1000);
 } 
 
-
-
-
-
-
-
-
-
-
-
+function draw() {
+  document.querySelector("#easy").addEventListener("click", (e) => {
+    startGame(1);
+  });
+  document.querySelector("#medium").addEventListener("click", (e) => {
+    startGame(2);
+  });
+  document.querySelector("#hard").addEventListener("click", (e) => {
+    startGame(3);
+  });
+  document.querySelector("#infinity").addEventListener("click", (e) => {
+    startGame(4);
+  }); 
+}
 
 /**
  * A game object controlled by the player.
@@ -139,7 +144,7 @@ class Character extends Component{
   gravity = 20;
   jumpStrength = 700;
   constructor(){
-    super(30, 50, "black", 10, 350);
+    super(30, 50, choice, 10, 350);
   }
   /**
    * Check for key presses and move the character accordingly.
@@ -210,7 +215,7 @@ function updateTimer() {
   timeLeft = timeLeft - 1;
   if(timeLeft === 0){
     myGameArea.stop();
-    document.getElementById("gameOver").innerHTML = "You WIN! Refresh to try again!";
+    document.getElementById("gameOver").innerHTML = "You WIN! Choose a level to play again!";
   }
 }
 
@@ -223,7 +228,7 @@ function updateGameArea() {
   for(let ob of obstacles){
     if(myCharacter.crashWith(ob)){
       myGameArea.stop();
-      document.getElementById("gameOver").innerHTML = "You lose! Refresh to try again!";
+      document.getElementById("gameOver").innerHTML = "You lose! Choose a level and try again!";
     }
   }
 
@@ -251,6 +256,4 @@ function updateGameArea() {
     ob.move();
     ob.update();
   }
-
-
 }
