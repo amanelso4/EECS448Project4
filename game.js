@@ -197,7 +197,7 @@ class Obstacle extends Component {
     if(numLevel == 1){
       super(30, 50, "red", myGameArea.canvas.width, 350);
     }
-    else if(numLevel == 2){
+    else if(numLevel == 2 || numLevel == 4){
       if((Math.floor(Math.random() * 10) % 2) == 1)
       {
         super(30, 50, "red", myGameArea.canvas.width, 350); //used to have super here
@@ -226,10 +226,12 @@ class Obstacle extends Component {
  */
 function updateTimer() {
   timeLeft = timeLeft - 1;
-  if(timeLeft === 0){
-    myGameArea.stop();
-    document.getElementById("gameOver").innerHTML = "You WIN! Choose a level to play again!";
-  }
+  if(numLevel != 4){
+    if(timeLeft === 0){
+      myGameArea.stop();
+      document.getElementById("gameOver").innerHTML = "You WIN! Choose a level to play again!";
+      }
+    }
 }
 
 /**
