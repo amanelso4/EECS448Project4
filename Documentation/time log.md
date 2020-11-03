@@ -19,3 +19,4 @@
 | Task                                             | Time Spent per person | Person Responsible | Date  |
 |--------------------------------------------------|-----------------------|--------------------|-------|
 | Creating air obstacles                           | 1.5 hours             | Celia Babst        | 11/1  |
+| Added level 2 and infinity level                 | 1 hour                | Celia Babst        | 11/3  |
