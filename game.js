@@ -9,6 +9,7 @@ var obstacleFreq = .01; // 0-1, smaller = less frequent
 var minDist = 400; // Minimum distance between obstacles
 var currentState = 'M';
 var myScore;
+var numLevel;
 var btn;
 let choice = document.querySelector("color");
 
@@ -112,6 +113,7 @@ class Component {
  */
 function startGame(level) {
   myGameArea.start();
+  numLevel = level;
  // ground = new Component(900, 300, "green", 0, 400);
   myCharacter = new Character();
   obstacles = [new Obstacle()];
@@ -192,12 +194,17 @@ class Obstacle extends Component {
   xSpeed =5;
   ySpeed =0;
   constructor() {
-    if((Math.floor(Math.random() * 10) % 2) == 1)
-    {
-    super(30, 50, "red", myGameArea.canvas.width, 350); //used to have super here
+    if(numLevel == 1){
+      super(30, 50, "red", myGameArea.canvas.width, 350);
     }
-    else {
-    super(30, 50, "red", myGameArea.canvas.width, 300);
+    else if(numLevel == 2){
+      if((Math.floor(Math.random() * 10) % 2) == 1)
+      {
+        super(30, 50, "red", myGameArea.canvas.width, 350); //used to have super here
+      }
+      else {
+        super(30, 50, "red", myGameArea.canvas.width, 300);
+      }
     }
   }
 
@@ -236,7 +243,6 @@ function updateGameArea() {
       myGameArea.stop();
       document.getElementById("gameOver").innerHTML = "You lose! Choose a level and try again!";
     }
-  }
   }
 
   // Spawn obstacles
