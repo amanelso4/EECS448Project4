@@ -1,9 +1,22 @@
 var myCharacter;
 var ground;
 var obstacles;
-var tps =100;
+var tps =100;//to make the game go faster or slower change this interval
 var key;
+var timer;
+var timeLeft = 6000;
+var obstacleFreq = .01; // 0-1, smaller = less frequent
+var minDist = 400; // Minimum distance between obstacles
+var currentState = 'M';
+var myScore;
+var numLevel;
+var btn;
+
+/**
+ * Object wrapping a 2D context and containing display and update methods.
+ */
 var myGameArea = {
+
   context: null,
   canvas: document.createElement("canvas"),
   start: function () {
@@ -12,7 +25,7 @@ var myGameArea = {
     this.context = this.canvas.getContext("2d");
 
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-    this.interval = setInterval(updateGameArea, 1000/tps); //to make the game go faster or slower change this interval
+    this.interval = setInterval(updateGameArea, 1000/tps);
     window.addEventListener('keydown', function (e) {
       key = e.key;
      })
@@ -20,45 +33,185 @@ var myGameArea = {
        key = false;
      })
   },
+  /**
+   * Clear the display.
+   */
   clear: function () {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  },
+  /**
+   * Pause the game.
+   */
+  stop: function () {
+    clearInterval(this.interval);
   }
 }
 
+/**
+ * Base game object which handles display and collision detection
+ */
 class Component {
+    /**
+     *
+     * @param {number} width Width of the object
+     * @param {number} height Height of the object
+     * @param {string} color The object's color
+     * @param {number} x The object's initial x location
+     * @param {number} y The object's initial y location
+     */
   constructor(width, height, color, x, y) {
     this.width = width;
     this.height = height;
     this.x = x;
     this.y = y;
     this.color = color;
+
+    /**
+     * Check if this object is colliding with another.
+     *
+     * @param {Component} ob The object against which to check for collision.
+     */
+    this.crashWith = function(ob) {
+      var myleft = this.x;
+      var myright = this.x + (this.width);
+      var mytop = this.y;
+      var mybottom = this.y + (this.height);
+      var objleft = ob.x;
+      var objright = ob.x + (ob.width);
+      var objtop = ob.y;
+      var objbottom = ob.y + (ob.height);
+      var crash = true;
+      if ((mybottom < objtop) ||
+      (mytop > objbottom) ||
+      (myright < objleft) ||
+      (myleft > objright)) {
+        crash = false;
+      }
+      return crash;
+    }
   }
+  /**
+    * Draw the object at the current location.
+   */
   update = function () {
     let ctx = myGameArea.context;
     ctx.fillStyle = this.color;
     ctx.fillRect(this.x, this.y, this.width, this.height);
   }
+  /**
+   * Remove the object image from the current location.
+   */
   clear = function () {
     let ctx = myGameArea.context;
     ctx.clearRect(this.x, this.y, this.width, this.height);
   }
 }
 
-function startGame() {
+/**
+ * Create the character and start the game.
+ */
+function startGame(level) {
   myGameArea.start();
+  numLevel = level;
+ // ground = new Component(900, 300, "green", 0, 400);
   myCharacter = new Character();
-  ground = new Component(900, 300, "green", 0, 400);
   obstacles = [new Obstacle()];
+  clouds = [new Cloud(100,100)];
+  ground = new Component(900, 300, "green", 0, 400);
+  timer = setInterval(updateTimer, 1000);
 }
+
+function draw() {
+  document.querySelector("#easy").addEventListener("click", (e) => {
+    startGame(1);
+  });
+  document.querySelector("#medium").addEventListener("click", (e) => {
+    startGame(2);
+  });
+  document.querySelector("#hard").addEventListener("click", (e) => {
+    startGame(3);
+  });
+  document.querySelector("#infinity").addEventListener("click", (e) => {
+    startGame(4);
+  });
+}
+class Cloud {
+radius=30;
+xAdjust=[];
+yAdjust=[];
+circles=7;
+speed=5;
+  constructor(x,y){
+    this.x=x;
+    this.y=y;
+    this.circles=Math.floor(Math.random() * 4)+5;
+    for(var i=0;i<this.circles;i++){
+      var angle = Math.random() * Math.PI*2;
+      this.xAdjust[i]=Math.random() * this.radius * Math.cos(angle);
+      this.yAdjust[i]=Math.random() * this.radius * Math.sin(angle);
+    }
+   this.speed =Math.floor(Math.random() * 4)+1;
+  }
+   /**
+    * Draw the object at the current location.
+   */
+  update = function () {
+    var cloudLayer = document.createElement("canvas");
+    let ctx = myGameArea.context;
+    ctx.fillStyle="#F0F0FF";
+
+    for (var i = 0; i < this.circles; i++) {
+      ctx.moveTo(this.x,this.y);
+      
+        ctx.beginPath();
+        ctx.arc(this.x +this.xAdjust[i],this.y +this.yAdjust[i], this.radius, 0, Math.PI*2, true);
+        ctx.fill();
+    }
+  }
+  move =function(){
+
+  }
+  /**
+   * Remove the object image from the current location.
+   */
+  clear = function () {
+    let ctx = myGameArea.context;
+    ctx.clearRect(0, 0, 500, 200);
+  }
+}
+
+/**
+ * A game object controlled by the player.
+ */
 class Character extends Component{
+  crouching =false;
   charGrounded = true;
   yVelocity = 0;
-  gravity = 5;
-  jumpStrength = 400;
+  gravity = 20;
+  jumpStrength = 700;
   constructor(){
-    super(30, 50, "black", 10, 350);
+    super(30, 50, document.getElementById("color").value, 10, 350);
   }
+  /**
+   * Check for key presses and move the character accordingly.
+   */
   move = function (){
+
+    if(key == "s"){
+      if(!this.crouching){
+        this.y+=25;
+      }
+      this.crouching=true;
+      this.height = 25;
+
+    }else{
+      if(this.crouching){
+        this.y-=25;
+      }
+      this.crouching=false;
+      this.height = 50;
+
+    }
     if(this.x <=50){
       this.x +=1;
     }
@@ -77,25 +230,94 @@ class Character extends Component{
     this.update();
   }
 }
-class Obstacle extends Component {
 
+/**
+ * A game object which serves as an obstacle for the character to avoid.
+ */
+class Obstacle extends Component {
+  xSpeed =5;
+  ySpeed =0;
   constructor() {
-    super(30, 50, "red", myGameArea.canvas.width, 350);
+    if(numLevel == 1){
+      super(30, 50, "red", myGameArea.canvas.width, 350);
+    }
+    else if(numLevel == 2 || numLevel == 4){
+      if((Math.floor(Math.random() * 10) % 2) == 1)
+      {
+        super(30, 50, "red", myGameArea.canvas.width, 350); //used to have super here
+      }
+      else {
+        super(30, 50, "red", myGameArea.canvas.width, 300);
+      }
+    }
   }
 
+  /**
+   * Move the object towards the character.
+   */
   move = function () {
-    this.x -= 1;
+    this.x -= this.xSpeed;
+    this.y -= this.ySpeed;
+    if(this.y<=0||(this.y)>=350){
+      console.log(this.y);
+      this.ySpeed *= -1;
+    }
   };
 }
 
+/**
+ * Update and check the game timer to see if the character has won.
+ */
+function updateTimer() {
+  timeLeft = timeLeft - 1;
+  if(numLevel != 4){
+    if(timeLeft === 0){
+      myGameArea.stop();
+      document.getElementById("gameOver").innerHTML = "You WIN! Choose a level to play again!";
+      }
+    }
+}
+
+/**
+ * Run the main game loop.
+ */
 function updateGameArea() {
+
+  // Check for collisions with player
+  for(let ob of obstacles){
+    if(myCharacter.crashWith(ob)){
+      myGameArea.stop();
+      document.getElementById("gameOver").innerHTML = "You lose! Choose a level and try again!";
+    }
+  }
+
+  // Spawn obstacles
+  if (Math.random() < obstacleFreq) {
+    if (obstacles.length < 1 || myGameArea.canvas.width - obstacles[obstacles.length - 1].x >= minDist) {
+        obstacles.push(new Obstacle());
+    }
+  }
+  if(myGameArea.canvas.width - obstacles[obstacles.length - 1].x >= myGameArea.canvas.width*.9){
+    obstacles.push(new Obstacle());
+  }
+  updateTimer();
+
+  
+  // Update the character and obstacles
   myCharacter.clear(); //we use myCharacter.clear() instead of myGameArea.clear() because we don't want the ground to clear
   for (let ob of obstacles) {
     ob.clear();
   }
+  for (let c of clouds) {
+    c.clear();
+  }
   ground.x += 1;
   ground.update();
   myCharacter.move();
+  for (let c of clouds) {
+   // c.move();
+    c.update();
+  }
   for (let ob of obstacles) {
     ob.move();
     ob.update();
