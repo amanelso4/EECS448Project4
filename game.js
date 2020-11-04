@@ -11,7 +11,6 @@ var currentState = 'M';
 var myScore;
 var numLevel;
 var btn;
-let choice = document.querySelector("color");
 
 /**
  * Object wrapping a 2D context and containing display and update methods.
@@ -146,7 +145,7 @@ class Character extends Component{
   gravity = 20;
   jumpStrength = 700;
   constructor(){
-    super(30, 50, choice, 10, 350);
+    super(30, 50, document.getElementById("color").value, 10, 350);
   }
   /**
    * Check for key presses and move the character accordingly.
