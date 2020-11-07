@@ -6,6 +6,7 @@ var key;
 var timer;
 var timeLeft = 6000;
 var obstacleFreq = .01; // 0-1, smaller = less frequent
+var cloudFreq = .005; // 0-1, smaller = less frequent
 var minDist = 400; // Minimum distance between obstacles
 var currentState = 'M';
 var myScore;
@@ -116,6 +117,7 @@ function startGame(level) {
  // ground = new Component(900, 300, "green", 0, 400);
   myCharacter = new Character();
   obstacles = [new Obstacle()];
+  clouds = [new Cloud(100,100),new Cloud(400,100)];
   ground = new Component(900, 300, "green", 0, 400);
   timer = setInterval(updateTimer, 1000);
 }
@@ -133,6 +135,49 @@ function draw() {
   document.querySelector("#infinity").addEventListener("click", (e) => {
     startGame(4);
   });
+}
+class Cloud {
+radius=30;
+xAdjust=[];
+yAdjust=[];
+circles=7;
+speed=3;
+  constructor(x,y){
+    this.x=x;
+    this.y=y+(Math.random() * 80)-80;
+    this.circles=Math.floor(Math.random() * 4)+5;
+    for(var i=0;i<this.circles;i++){
+      var angle = Math.random() * Math.PI*2;
+      this.xAdjust[i]=Math.random() * this.radius * Math.cos(angle);
+      this.yAdjust[i]=Math.random() * this.radius * Math.sin(angle);
+    }
+   this.speed =(Math.random() *2)+.1;
+  }
+   /**
+    * Draw the object at the current location.
+   */
+  update = function () {
+    let ctx = myGameArea.context;
+    ctx.fillStyle="#F0F0FF";
+
+    for (var i = 0; i < this.circles; i++) {
+      ctx.moveTo(this.x,this.y);
+      
+        ctx.beginPath();
+        ctx.arc(this.x +this.xAdjust[i],this.y +this.yAdjust[i], this.radius, 0, Math.PI*2, true);
+        ctx.fill();
+    }
+  }
+  move =function(){
+    this.x -= this.speed;
+  }
+  /**
+   * Remove the object image from the current location.
+   */
+  clear = function () {
+    let ctx = myGameArea.context;
+    ctx.clearRect(0, 0, myGameArea.canvas.width, 200);
+  }
 }
 
 /**
@@ -196,15 +241,27 @@ class Obstacle extends Component {
     if(numLevel == 1){
       super(30, 50, "red", myGameArea.canvas.width, 350);
     }
-    else if(numLevel == 2 || numLevel == 4){
+    else if(numLevel >= 2 && numLevel <= 4){
       if((Math.floor(Math.random() * 10) % 2) == 1)
       {
+        if(numLevel==3 && (Math.floor(Math.random() * 10) % 2) == 1){
+          super(30, 50, "red", myGameArea.canvas.width, 50);
+          if(Math.random()<.5){
+            this.ySpeed = 2; //duck to avoid
+          }else{
+            this.ySpeed = 3; //do nothing to avoid
+          }
+        }
+        else{
         super(30, 50, "red", myGameArea.canvas.width, 350); //used to have super here
+        }
       }
       else {
-        super(30, 50, "red", myGameArea.canvas.width, 300);
+        super(30, 80, "red", myGameArea.canvas.width, 270); //floating obstacle
+        
       }
     }
+   
   }
 
   /**
@@ -255,17 +312,28 @@ function updateGameArea() {
   if(myGameArea.canvas.width - obstacles[obstacles.length - 1].x >= myGameArea.canvas.width*.9){
     obstacles.push(new Obstacle());
   }
+  //Spawn clouds
+  if (Math.random() < cloudFreq) {
+    clouds.push(new Cloud(myGameArea.canvas.width+50,150));
+  }
   updateTimer();
 
-
+  
   // Update the character and obstacles
   myCharacter.clear(); //we use myCharacter.clear() instead of myGameArea.clear() because we don't want the ground to clear
   for (let ob of obstacles) {
     ob.clear();
   }
+  for (let c of clouds) {
+    c.clear();
+  }
   ground.x += 1;
   ground.update();
   myCharacter.move();
+  for (let c of clouds) {
+    c.move();
+    c.update();
+  }
   for (let ob of obstacles) {
     ob.move();
     ob.update();
