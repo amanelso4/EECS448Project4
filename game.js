@@ -257,7 +257,7 @@ class Obstacle extends Component {
         }
       }
       else {
-        super(30, 50, "red", myGameArea.canvas.width, 300); //floating obstacle
+        super(30, 80, "red", myGameArea.canvas.width, 270); //floating obstacle
         
       }
     }
