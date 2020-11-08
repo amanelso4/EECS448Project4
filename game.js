@@ -8,6 +8,7 @@ var key;
 var timer;
 var timeLeft = 6000;
 var realTime;
+var realTime4 = 0;
 var obstacleFreq = .01; // 0-1, smaller = less frequent
 var cloudFreq = .005; // 0-1, smaller = less frequent
 var minDist = 400; // Minimum distance between obstacles
@@ -281,15 +282,20 @@ export class Obstacle extends Component {
  * Update and check the game timer to see if the character has won.
  */
 function updateTimer() {
-  timeLeft = timeLeft - 1;
-  realTime = timeLeft / 100;
-  document.getElementById("timer").innerHTML = Math.ceil(realTime);
   if(numLevel != 4){
+    timeLeft = timeLeft - 1;
+    realTime = timeLeft / 100;
+    document.getElementById("timer").innerHTML = Math.ceil(realTime);
     if(timeLeft === 0){
       myGameArea.stop();
       document.getElementById("gameOver").innerHTML = "You WIN! Choose a level to play again!";
       }
-    }
+  }
+  else{
+    realTime4 = realTime4 + 1;
+    var show = realTime4 / 100;
+    document.getElementById("timer").innerHTML = Math.ceil(show);
+  }
 }
 
 /**
