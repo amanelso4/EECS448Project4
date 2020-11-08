@@ -16,6 +16,7 @@ var myScore;
 var numLevel;
 var btn;
 var clouds;
+var progressView;
 
 /**
  * Object wrapping a 2D context and containing display and update methods.
