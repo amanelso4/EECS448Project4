@@ -2,12 +2,13 @@
 
 | Task                                                                                                                     | Time Estimate | Person Responsible |
 |--------------------------------------------------------------------------------------------------------------------------|---------------|--------------------|
-| Documentation (System Requirements, design paradigm, Software architecture, UML modeling, and design patterns documents) | 4 hours       | Amanda Nelson      |
+| Documentation  | 4 hours       | Reece Matthews, Kayton Froeschl, Celia Babst      |
 | Documentation (Code comments/HTML generation)                                                                            | 1 hour        | Reece Matthews     |
-| Initial Course Implementation                                                                                            | 2 hours       | Celia Babst        |
-| Character Movement Implementation                                                                                        | 3 hours       | Kevin Carlson      |
-| Obstacle Implementation                                                                                                  | 3 hours       | Reece Matthews     |
-| Winning/Finish Line Implementation                                                                                       | 3 hours       | Kayton Froeschl    |
+| Landing Page Implementation                                                                                            | 2 hours       | Amanda Nelson        |
+| Level 2 Implementation                                                                                            | 2 hours       | Celia Babst        |
+| Level 3 Implementation                                                                                        | 3 hours       | Kevin Carlson      |
+| Test Suite                                                                                                 | 3 hours       | Reece Matthews     |
+| Timer and other features                                                                                      | 3 hours       | Kayton Froeschl    |
 | Team Meetings                                                                                                            | 5 hours       | Entire Team        |
 
 ### We came up with these time estimates based on our Previous projects (project 1 and 2).
