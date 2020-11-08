@@ -286,7 +286,7 @@ export class Obstacle extends Component {
  */
 /*function updateTimer() {
   timeLeft = timeLeft - 1;
-<<<<<<< HEAD
+
   progressView.innerHTML = timeLeft;
   if(timeLeft === 0){
     myGameArea.stop();
@@ -310,15 +310,14 @@ function updateTimer() {
     progressView.innerHTML = "0";
     document.getElementById("gameOver").innerHTML = "You WIN! Refresh to try again!";
   }
-=======
+
   if(numLevel != 4){
     if(timeLeft === 0){
       myGameArea.stop();
       document.getElementById("gameOver").innerHTML = "You WIN! Choose a level to play again!";
       }
     }
->>>>>>> df10bddea55dd9ca00f250d78e4b8da832eb1a45
-}
+
   
 
 
@@ -333,12 +332,10 @@ function updateGameArea() {
   for(let ob of obstacles){
     if(myCharacter.crashWith(ob)){
       myGameArea.stop();
-<<<<<<< HEAD
+
       clearInterval(timer);
-      document.getElementById("gameOver").innerHTML = "You lose! Refresh to try again!";
-=======
       document.getElementById("gameOver").innerHTML = "You lose! Choose a level and try again!";
->>>>>>> df10bddea55dd9ca00f250d78e4b8da832eb1a45
+
     }
   }
 
@@ -351,15 +348,12 @@ function updateGameArea() {
   if(myGameArea.canvas.width - obstacles[obstacles.length - 1].x >= myGameArea.canvas.width*.9){
     obstacles.push(new Obstacle());
   }
-<<<<<<< HEAD
-  //updateTimer();
-=======
+
   //Spawn clouds
   if (Math.random() < cloudFreq) {
     clouds.push(new Cloud(myGameArea.canvas.width+50,150));
   }
   updateTimer();
->>>>>>> df10bddea55dd9ca00f250d78e4b8da832eb1a45
 
   
   // Update the character and obstacles
@@ -383,10 +377,10 @@ function updateGameArea() {
   }
 }
 
-<<<<<<< HEAD
+
 
 }
-=======
+
 /**
  * Run all tests.
  */
@@ -410,4 +404,4 @@ document.querySelector("#infinity").addEventListener("click", (e) => {
 document.querySelector("#runTests").addEventListener("click", (e) => {
     runTests();
 });
->>>>>>> df10bddea55dd9ca00f250d78e4b8da832eb1a45
+
