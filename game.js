@@ -38,6 +38,7 @@ var myGameArea = {
     progressView = document.getElementById("timer");
 
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+    clearInterval(this.interval);
     this.interval = setInterval(updateGameArea, 1000/tps);
     window.addEventListener('keydown', function (e) {
       key = e.key;
@@ -133,6 +134,7 @@ function startGame(level) {
   obstacles = [new Obstacle()];
   clouds = [new Cloud(100,100),new Cloud(400,100)];
   ground = new Component(900, 300, "green", 0, 400);
+  clearInterval(timer);
   timer = setInterval(updateTimer, 1000);
 
 }
