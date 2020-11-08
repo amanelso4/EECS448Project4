@@ -23,6 +23,7 @@ var btn;
 var clouds;
 var progressView;
 
+
 /**
  * Object wrapping a 2D context and containing display and update methods.
  */
@@ -342,7 +343,6 @@ function updateGameArea() {
   if (Math.random() < cloudFreq) {
     clouds.push(new Cloud(myGameArea.canvas.width+50,150));
   }
-  updateTimer();
 
   
   // Update the character and obstacles
@@ -365,7 +365,6 @@ function updateGameArea() {
     ob.update();
   }
 }
-
 
 
 
