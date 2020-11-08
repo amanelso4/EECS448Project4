@@ -9,6 +9,10 @@ var timer;
 var timeLeft = 6000;
 var realTime;
 var realTime4 = 0;
+
+var timeLabel;
+var time = 60;
+
 var obstacleFreq = .01; // 0-1, smaller = less frequent
 var cloudFreq = .005; // 0-1, smaller = less frequent
 var minDist = 400; // Minimum distance between obstacles
@@ -17,6 +21,7 @@ var myScore;
 var numLevel;
 var btn;
 var clouds;
+var progressView;
 
 /**
  * Object wrapping a 2D context and containing display and update methods.
@@ -29,6 +34,7 @@ var myGameArea = {
     this.canvas.width = 900;
     this.canvas.height = 700; //the size of the game screen
     this.context = this.canvas.getContext("2d");
+    progressView = document.getElementById("timer");
 
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
     this.interval = setInterval(updateGameArea, 1000/tps);
@@ -52,6 +58,8 @@ var myGameArea = {
     clearInterval(this.interval);
   }
 }
+
+
 
 /**
  * Base game object which handles display and collision detection
@@ -125,6 +133,7 @@ function startGame(level) {
   clouds = [new Cloud(100,100),new Cloud(400,100)];
   ground = new Component(900, 300, "green", 0, 400);
   timer = setInterval(updateTimer, 1000);
+
 }
 
 
@@ -281,6 +290,7 @@ export class Obstacle extends Component {
 /**
  * Update and check the game timer to see if the character has won.
  */
+
 function updateTimer() {
   if(numLevel != 4){
     timeLeft = timeLeft - 1;
@@ -298,6 +308,10 @@ function updateTimer() {
   }
 }
 
+
+
+
+
 /**
  * Run the main game loop.
  */
@@ -307,7 +321,10 @@ function updateGameArea() {
   for(let ob of obstacles){
     if(myCharacter.crashWith(ob)){
       myGameArea.stop();
+
+      clearInterval(timer);
       document.getElementById("gameOver").innerHTML = "You lose! Choose a level and try again!";
+
     }
   }
 
@@ -320,6 +337,7 @@ function updateGameArea() {
   if(myGameArea.canvas.width - obstacles[obstacles.length - 1].x >= myGameArea.canvas.width*.9){
     obstacles.push(new Obstacle());
   }
+
   //Spawn clouds
   if (Math.random() < cloudFreq) {
     clouds.push(new Cloud(myGameArea.canvas.width+50,150));
@@ -348,6 +366,10 @@ function updateGameArea() {
   }
 }
 
+
+
+
+
 /**
  * Run all tests.
  */
@@ -371,3 +393,4 @@ document.querySelector("#infinity").addEventListener("click", (e) => {
 document.querySelector("#runTests").addEventListener("click", (e) => {
     runTests();
 });
+

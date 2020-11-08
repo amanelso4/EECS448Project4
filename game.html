@@ -1,23 +1,28 @@
 <!DOCTYPE html>
 <html>
   <link rel="stylesheet" type="text/css" href="styles.css" />
+
 <head>
   <h1 id = "timer"> </h1>
   <h1 id="gameOver"> </h1>
   <script type="module" src="game.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
+
 <div class="title">
-  <h1>Title</h1>
+  <h1>The Jumping Rectangle</h1>
 </div>
 
 <body>
-  
   <h2>Choose a color for your player!</h2>
   <select id="color">
     <option value="black">Black</option>
     <option value="pink">Pink</option>
     <option value="purple">Purple</option>
+    <option value="darkorange">Orange</option>
+    <option value="yellow">Yellow</option>
+    <option value="blue">Blue</option>
+    <option value="grey">Grey</option>
   </select>
   <h2>Choose a Level!</h2>
   <button id="easy">Level 1</button>
@@ -25,13 +30,16 @@
   <button id="hard">Level 3</button>
   <button id="infinity">Infinity Mode!</button>
 
-
+<div id="middle">
   <style>
     canvas {
       border: 1px solid #d3d3d3;
-      background-color: #0000ff;
+      background-color: lightblue;
     }
+
   </style>
+  </div>
+</body>
 
   <h2>Tests</h2>
   <button id="runTests">Run Tests</button>
