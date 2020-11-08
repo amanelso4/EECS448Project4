@@ -3,8 +3,9 @@
   <link rel="stylesheet" type="text/css" href="styles.css" />
 
 <head>
+  <h1 id = "timer"> </h1>
   <h1 id="gameOver"> </h1>
-  <script src="game.js"></script>
+  <script type="module" src="game.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 
@@ -35,11 +36,16 @@
       border: 1px solid #d3d3d3;
       background-color: lightblue;
     }
+
   </style>
   </div>
 </body>
 
-<body onload="draw()">
+  <h2>Tests</h2>
+  <button id="runTests">Run Tests</button>
+  <p id="testResults"></p>
+
+
 </body>
 
 </html>

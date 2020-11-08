@@ -1,10 +1,13 @@
+import {Tester} from './tests.js';
+
 var myCharacter;
 var ground;
 var obstacles;
 var tps =100;//to make the game go faster or slower change this interval
 var key;
 var timer;
-var timeLeft = 6000;
+var timeLabel;
+var time = 60;
 var obstacleFreq = .01; // 0-1, smaller = less frequent
 var cloudFreq = .005; // 0-1, smaller = less frequent
 var minDist = 400; // Minimum distance between obstacles
@@ -12,6 +15,7 @@ var currentState = 'M';
 var myScore;
 var numLevel;
 var btn;
+var clouds;
 
 /**
  * Object wrapping a 2D context and containing display and update methods.
@@ -24,6 +28,7 @@ var myGameArea = {
     this.canvas.width = 900;
     this.canvas.height = 700; //the size of the game screen
     this.context = this.canvas.getContext("2d");
+    progressView = document.getElementById("timer");
 
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
     this.interval = setInterval(updateGameArea, 1000/tps);
@@ -48,10 +53,12 @@ var myGameArea = {
   }
 }
 
+
+
 /**
  * Base game object which handles display and collision detection
  */
-class Component {
+export class Component {
     /**
      *
      * @param {number} width Width of the object
@@ -120,28 +127,23 @@ function startGame(level) {
   clouds = [new Cloud(100,100),new Cloud(400,100)];
   ground = new Component(900, 300, "green", 0, 400);
   timer = setInterval(updateTimer, 1000);
+
 }
 
-function draw() {
-  document.querySelector("#easy").addEventListener("click", (e) => {
-    startGame(1);
-  });
-  document.querySelector("#medium").addEventListener("click", (e) => {
-    startGame(2);
-  });
-  document.querySelector("#hard").addEventListener("click", (e) => {
-    startGame(3);
-  });
-  document.querySelector("#infinity").addEventListener("click", (e) => {
-    startGame(4);
-  });
-}
-class Cloud {
+
+/**
+ * Render clouds in the game's skybox.
+ */
+export class Cloud {
 radius=30;
 xAdjust=[];
 yAdjust=[];
 circles=7;
 speed=3;
+    /**
+     * @param {number} x The initial x location 
+     * @param {number} y The initial y location
+     */
   constructor(x,y){
     this.x=x;
     this.y=y+(Math.random() * 80)-80;
@@ -168,6 +170,9 @@ speed=3;
         ctx.fill();
     }
   }
+  /**
+   * Move the Cloud across the sky.
+   */
   move =function(){
     this.x -= this.speed;
   }
@@ -183,7 +188,7 @@ speed=3;
 /**
  * A game object controlled by the player.
  */
-class Character extends Component{
+export class Character extends Component{
   crouching =false;
   charGrounded = true;
   yVelocity = 0;
@@ -234,14 +239,14 @@ class Character extends Component{
 /**
  * A game object which serves as an obstacle for the character to avoid.
  */
-class Obstacle extends Component {
+export class Obstacle extends Component {
   xSpeed =5;
   ySpeed =0;
   constructor() {
     if(numLevel == 1){
       super(30, 50, "red", myGameArea.canvas.width, 350);
     }
-    else if(numLevel >= 2 && numLevel <= 4){
+    else {
       if((Math.floor(Math.random() * 10) % 2) == 1)
       {
         if(numLevel==3 && (Math.floor(Math.random() * 10) % 2) == 1){
@@ -271,7 +276,6 @@ class Obstacle extends Component {
     this.x -= this.xSpeed;
     this.y -= this.ySpeed;
     if(this.y<=0||(this.y)>=350){
-      console.log(this.y);
       this.ySpeed *= -1;
     }
   };
@@ -280,15 +284,44 @@ class Obstacle extends Component {
 /**
  * Update and check the game timer to see if the character has won.
  */
-function updateTimer() {
+/*function updateTimer() {
   timeLeft = timeLeft - 1;
+
+  progressView.innerHTML = timeLeft;
+  if(timeLeft === 0){
+    myGameArea.stop();
+    document.getElementById("gameOver").innerHTML = "You WIN! Refresh to try again!";
+  }
+}*/
+
+function updateTimer() {
+  time = time - 1;
+  
+  progressView.innerHTML = time; 
+
+  this.canvas.font = "30px Arial";
+  this.canvas.fillText(time,800,50); 
+
+  //changetext(time);
+
+  if(time < 0){
+    myGameArea.stop();
+    clearInterval(timer);
+    progressView.innerHTML = "0";
+    document.getElementById("gameOver").innerHTML = "You WIN! Refresh to try again!";
+  }
+
   if(numLevel != 4){
     if(timeLeft === 0){
       myGameArea.stop();
       document.getElementById("gameOver").innerHTML = "You WIN! Choose a level to play again!";
       }
     }
-}
+
+  
+
+
+
 
 /**
  * Run the main game loop.
@@ -299,7 +332,10 @@ function updateGameArea() {
   for(let ob of obstacles){
     if(myCharacter.crashWith(ob)){
       myGameArea.stop();
+
+      clearInterval(timer);
       document.getElementById("gameOver").innerHTML = "You lose! Choose a level and try again!";
+
     }
   }
 
@@ -312,6 +348,7 @@ function updateGameArea() {
   if(myGameArea.canvas.width - obstacles[obstacles.length - 1].x >= myGameArea.canvas.width*.9){
     obstacles.push(new Obstacle());
   }
+
   //Spawn clouds
   if (Math.random() < cloudFreq) {
     clouds.push(new Cloud(myGameArea.canvas.width+50,150));
@@ -339,3 +376,32 @@ function updateGameArea() {
     ob.update();
   }
 }
+
+
+
+}
+
+/**
+ * Run all tests.
+ */
+function runTests() {
+    let tests = new Tester();
+    tests.runTests();
+}
+
+document.querySelector("#easy").addEventListener("click", (e) => {
+    startGame(1);
+});
+document.querySelector("#medium").addEventListener("click", (e) => {
+    startGame(2);
+});
+document.querySelector("#hard").addEventListener("click", (e) => {
+    startGame(3);
+});
+document.querySelector("#infinity").addEventListener("click", (e) => {
+    startGame(4);
+});
+document.querySelector("#runTests").addEventListener("click", (e) => {
+    runTests();
+});
+
