@@ -343,7 +343,7 @@ function updateGameArea() {
   if (Math.random() < cloudFreq) {
     clouds.push(new Cloud(myGameArea.canvas.width+50,150));
   }
-
+  updateTimer();
   
   // Update the character and obstacles
   myCharacter.clear(); //we use myCharacter.clear() instead of myGameArea.clear() because we don't want the ground to clear
