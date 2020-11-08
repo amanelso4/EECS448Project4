@@ -126,12 +126,19 @@ function startGame(level) {
 }
 
 
+/**
+ * Render clouds in the game's skybox.
+ */
 export class Cloud {
 radius=30;
 xAdjust=[];
 yAdjust=[];
 circles=7;
 speed=3;
+    /**
+     * @param {number} x The initial x location 
+     * @param {number} y The initial y location
+     */
   constructor(x,y){
     this.x=x;
     this.y=y+(Math.random() * 80)-80;
@@ -158,6 +165,9 @@ speed=3;
         ctx.fill();
     }
   }
+  /**
+   * Move the Cloud across the sky.
+   */
   move =function(){
     this.x -= this.speed;
   }
@@ -329,7 +339,9 @@ function updateGameArea() {
   }
 }
 
-
+/**
+ * Run all tests.
+ */
 function runTests() {
     let tests = new Tester();
     tests.runTests();

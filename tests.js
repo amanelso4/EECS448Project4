@@ -1,6 +1,9 @@
 import * as Game from './game.js';
 
 
+/**
+ * Wrap all test code in a single class which can be imported elsewhere.
+ */
 export class Tester {
 
     constructor() {

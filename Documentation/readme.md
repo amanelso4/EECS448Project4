@@ -6,7 +6,7 @@
 1. Install the dependencies for generating documentation with `npm install`
 
 # Generating Documentation
-Run `node_modules/.bin/jsdoc . -c jsdoc.json`
+Run `.\node_modules\.bin\jsdoc . -c .\jsdoc.json`
 
 # Works Cited
 This project uses the following packages:
