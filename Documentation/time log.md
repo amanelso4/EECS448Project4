@@ -19,3 +19,6 @@
 | Task                                             | Time Spent per person | Person Responsible | Date  |
 |--------------------------------------------------|-----------------------|--------------------|-------|
 | Creating air obstacles                           | 1.5 hours             | Celia Babst        | 11/1  |
+| Creating Deployment Plan                         | 1 hours               | Reece Mathews      | 11/4  |
+| Adding Test Suite                                | 3.5 hours             | Reece Mathews      | 11/7  |
+| Improving Deployment Plan                        | 1 hours               | Reece Mathews      | 11/7  |
