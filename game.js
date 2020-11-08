@@ -7,6 +7,7 @@ var tps =100;//to make the game go faster or slower change this interval
 var key;
 var timer;
 var timeLeft = 6000;
+var realTime;
 var obstacleFreq = .01; // 0-1, smaller = less frequent
 var cloudFreq = .005; // 0-1, smaller = less frequent
 var minDist = 400; // Minimum distance between obstacles
@@ -281,6 +282,8 @@ export class Obstacle extends Component {
  */
 function updateTimer() {
   timeLeft = timeLeft - 1;
+  realTime = timeLeft / 100;
+  document.getElementById("timer").innerHTML = Math.ceil(realTime);
   if(numLevel != 4){
     if(timeLeft === 0){
       myGameArea.stop();
