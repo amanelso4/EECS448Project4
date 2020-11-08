@@ -20,3 +20,8 @@
 |--------------------------------------------------|-----------------------|--------------------|-------|
 | Creating air obstacles                           | 1.5 hours             | Celia Babst        | 11/1  |
 | Added level 2 and infinity level                 | 1 hour                | Celia Babst        | 11/3  |
+| Creating Deployment Plan                         | 1 hours               | Reece Mathews      | 11/4  |
+| Adding Test Suite                                | 3.5 hours             | Reece Mathews      | 11/7  |
+| Improving Deployment Plan                        | 1 hours               | Reece Mathews      | 11/7  |
+| Update Code Documentation                        | .5 hours              | Reece Mathews      | 11/7  |
+| Created Integration Strategy Essay               | .5 hours              | Celia Babst        | 11/7  |
