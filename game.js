@@ -231,7 +231,7 @@ export class Obstacle extends Component {
     if(numLevel == 1){
       super(30, 50, "red", myGameArea.canvas.width, 350);
     }
-    else if(numLevel >= 2 && numLevel <= 4){
+    else {
       if((Math.floor(Math.random() * 10) % 2) == 1)
       {
         if(numLevel==3 && (Math.floor(Math.random() * 10) % 2) == 1){
