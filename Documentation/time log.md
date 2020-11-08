@@ -20,12 +20,15 @@
 |--------------------------------------------------|-----------------------|--------------------|-------|
 | Creating air obstacles                           | 1.5 hours             | Celia Babst        | 11/1  |
 | Added level 2 and infinity level                 | 1 hour                | Celia Babst        | 11/3  |
+| Made the timer visable and created Maintenance Plan                | 2 hours               | Kayton Froeschl        | 11/3  |
 | Bug fixing                                       | .25 hour              | Kevin Carlson      | 11/3  |
 | Adding clouds                                    | 1.5 hour              | Kevin Carlson      | 11/3  |
 | Creating Deployment Plan                         | 1 hours               | Reece Mathews      | 11/4  |
+| Fixed errrors related to timer                | 1.5 hours               | Kayton Froeschl        | 11/4  |
 | Finished clouds                                  | .25 hour              | Kevin Carlson      | 11/6  |
 | Level 3                                          | 1 hour                | Kevin Carlson      | 11/6  |
 | Adding Test Suite                                | 3.5 hours             | Reece Mathews      | 11/7  |
 | Improving Deployment Plan                        | 1 hours               | Reece Mathews      | 11/7  |
 | Update Code Documentation                        | .5 hours              | Reece Mathews      | 11/7  |
 | Created Integration Strategy Essay               | .5 hours              | Celia Babst        | 11/7  |
+| Merged my files to master and fixed bugs               | 1.5 hours              | Kayton Froeschl        | 11/7  |
