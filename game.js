@@ -1,3 +1,5 @@
+import {Tester} from './tests.js';
+
 var myCharacter;
 var ground;
 var obstacles;
@@ -12,6 +14,7 @@ var currentState = 'M';
 var myScore;
 var numLevel;
 var btn;
+var clouds;
 
 /**
  * Object wrapping a 2D context and containing display and update methods.
@@ -51,7 +54,7 @@ var myGameArea = {
 /**
  * Base game object which handles display and collision detection
  */
-class Component {
+export class Component {
     /**
      *
      * @param {number} width Width of the object
@@ -122,21 +125,8 @@ function startGame(level) {
   timer = setInterval(updateTimer, 1000);
 }
 
-function draw() {
-  document.querySelector("#easy").addEventListener("click", (e) => {
-    startGame(1);
-  });
-  document.querySelector("#medium").addEventListener("click", (e) => {
-    startGame(2);
-  });
-  document.querySelector("#hard").addEventListener("click", (e) => {
-    startGame(3);
-  });
-  document.querySelector("#infinity").addEventListener("click", (e) => {
-    startGame(4);
-  });
-}
-class Cloud {
+
+export class Cloud {
 radius=30;
 xAdjust=[];
 yAdjust=[];
@@ -183,7 +173,7 @@ speed=3;
 /**
  * A game object controlled by the player.
  */
-class Character extends Component{
+export class Character extends Component{
   crouching =false;
   charGrounded = true;
   yVelocity = 0;
@@ -234,7 +224,7 @@ class Character extends Component{
 /**
  * A game object which serves as an obstacle for the character to avoid.
  */
-class Obstacle extends Component {
+export class Obstacle extends Component {
   xSpeed =5;
   ySpeed =0;
   constructor() {
@@ -271,7 +261,6 @@ class Obstacle extends Component {
     this.x -= this.xSpeed;
     this.y -= this.ySpeed;
     if(this.y<=0||(this.y)>=350){
-      console.log(this.y);
       this.ySpeed *= -1;
     }
   };
@@ -339,3 +328,25 @@ function updateGameArea() {
     ob.update();
   }
 }
+
+
+function runTests() {
+    let tests = new Tester();
+    tests.runTests();
+}
+
+document.querySelector("#easy").addEventListener("click", (e) => {
+    startGame(1);
+});
+document.querySelector("#medium").addEventListener("click", (e) => {
+    startGame(2);
+});
+document.querySelector("#hard").addEventListener("click", (e) => {
+    startGame(3);
+});
+document.querySelector("#infinity").addEventListener("click", (e) => {
+    startGame(4);
+});
+document.querySelector("#runTests").addEventListener("click", (e) => {
+    runTests();
+});
